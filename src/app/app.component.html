@@ -1,6 +1,65 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div formGroupName="userData">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" id="username"
+                   formControlName="username"
+                   type="text">
+            <span *ngIf="getUsernameControl().hasError('required') && getUsernameControl().touched"
+                  class="form-text text-danger">
+              username is required!</span>
+            <span *ngIf="getUsernameControl().hasError('nameIsForbidden')"
+                  class="form-text text-danger">
+              this is an invalid username!</span>
+          </div>
+          <div class="form-group mt-3">
+            <label for="email">email</label>
+            <input
+              formControlName="email"
+              type="text"
+              id="email"
+              class="form-control">
+            <span *ngIf="getEmailControl().invalid &&
+            getEmailControl().touched"
+                  class="form-text text-danger">
+              Please enter a valid email!</span>
+          </div>
+        </div>
+        <div class="form-check mt-3" *ngFor="let gender of genders">
+          <label class="form-check-label">
+            <input
+              formControlName="gender"
+              class="form-check-input"
+              type="radio"
+              [value]="gender">
+            {{ gender }}
+          </label>
+        </div>
+
+        <div class="form-group mt-3" formArrayName=hobbies>
+          <h3>Your Hobbies</h3>
+          <button class="btn btn-light" type="button" (click)="onAddHobby()">Add Hobby</button>
+          <div class="form-group" *ngFor="let hobby of getHobbies(); let i=index">
+            <input type="text" class="form-control" [formControlName]="i">
+          </div>
+        </div>
+
+
+        <button class="btn btn-primary mt-3" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--TD Approach-->
+<!--
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
       <form (ngSubmit)="onSubmit()" #f=ngForm>
         <div id="user-data" ngModelGroup="userData" #userData=ngModelGroup>
 
@@ -82,3 +141,4 @@
     </div>
   </div>
 </div>
+-->
